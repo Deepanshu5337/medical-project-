@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MediLens – Medicine Information for Everyone</title>
+<style>
+:root{--bg:#f5f9ff;--card:#fff;--ink:#0f2742;--mute:#5b6f87;--blue:#1769d1;--blue2:#e6f0fd;--line:#d9e5f4;--warn:#fff4e5;--warnink:#8a4b00;--red:#fdecec;--redink:#a12020;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0c1624;--card:#13233a;--ink:#e8f0fb;--mute:#97aac2;--blue:#5aa3ff;--blue2:#17304f;--line:#24405f;--warn:#3a2c12;--warnink:#ffcf8a;--red:#3b1a1c;--redink:#ffa8a8;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0c1624;--card:#13233a;--ink:#e8f0fb;--mute:#97aac2;--blue:#5aa3ff;--blue2:#17304f;--line:#24405f;--warn:#3a2c12;--warnink:#ffcf8a;--red:#3b1a1c;--redink:#ffa8a8;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--card);z-index:10}
+header{position:sticky;top:env(safe-area-inset-top,0px);background:var(--card);border-bottom:1px solid var(--line);z-index:9}
+.bar{max-width:1080px;margin:auto;display:flex;align-items:center;gap:8px;padding:10px 16px;flex-wrap:wrap}
+.logo{font-weight:800;font-size:20px;color:var(--blue);cursor:pointer;margin-right:auto}
+nav{display:flex;gap:4px;overflow-x:auto}
+nav a{padding:8px 12px;border-radius:999px;color:var(--ink);text-decoration:none;font-size:14px;white-space:nowrap;cursor:pointer}
+nav a.on,nav a:hover{background:var(--blue2);color:var(--blue)}
+main{max-width:1080px;margin:auto;padding:16px}
+.hero{background:linear-gradient(135deg,#1769d1,#0b4aa0);color:#fff;border-radius:16px;padding:28px 20px;text-align:center}
+.hero h1{margin:0 0 6px;font-size:clamp(22px,5vw,34px)}.hero p{margin:0 0 16px;opacity:.9}
+.sbox{display:flex;gap:8px;max-width:620px;margin:auto}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 12px;width:100%}
+button{font:inherit;cursor:pointer;border:0;border-radius:10px;padding:10px 16px;background:var(--blue);color:#fff;font-weight:600}
+button.ghost{background:var(--blue2);color:var(--blue)}button:disabled{opacity:.5}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}
+.chip{padding:7px 14px;border-radius:999px;background:var(--card);border:1px solid var(--line);cursor:pointer;font-size:14px}
+.chip.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+.med{cursor:pointer}.med:hover{border-color:var(--blue)}
+.med h3{margin:0 0 2px;font-size:17px}.tag{display:inline-block;font-size:12px;padding:2px 9px;border-radius:999px;background:var(--blue2);color:var(--blue);margin:6px 4px 0 0}
+.sub{color:var(--mute);font-size:14px}
+h2{margin:22px 0 10px}
+.sec{margin-top:12px}.sec h3{margin:0 0 4px;color:var(--blue);font-size:15px;text-transform:uppercase;letter-spacing:.04em}
+.warn{background:var(--warn);color:var(--warnink);border-radius:12px;padding:12px 14px;font-size:14px;margin:12px 0}
+.red{background:var(--red);color:var(--redink)}
+.wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:560px}
+th,td{border:1px solid var(--line);padding:9px;text-align:left;vertical-align:top;font-size:14px}th{background:var(--blue2)}
+.chat{display:flex;flex-direction:column;gap:10px;min-height:220px;max-height:55vh;overflow:auto;padding:4px}
+.m{padding:10px 13px;border-radius:14px;max-width:88%;white-space:pre-wrap}
+.m.u{align-self:flex-end;background:var(--blue);color:#fff}.m.a{background:var(--blue2)}
+.row{display:flex;gap:8px;margin-top:10px}
+.back{cursor:pointer;color:var(--blue);margin-bottom:8px;display:inline-block}
+footer{max-width:1080px;margin:20px auto;padding:0 16px 24px;color:var(--mute);font-size:13px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:700px){.two{grid-template-columns:1fr}}
+</style></head><body>
+<header><div class="bar"><div class="logo" onclick="go('home')">✚ MediLens</div>
+<nav id="nav"><a data-v="home" onclick="go('home')">Search</a><a data-v="categories" onclick="go('categories')">Categories</a><a data-v="compare" onclick="go('compare')">Compare</a><a data-v="assistant" onclick="go('assistant')">AI Assistant</a><a data-v="scan" onclick="go('scan')">Scan Strip</a><a data-v="sources" onclick="go('sources')">Sources</a></nav></div></header>
+<main id="app"></main>
+<footer>MediLens provides general educational information only. It is not a substitute for advice from a doctor or pharmacist. Never start, stop or change a medicine without professional guidance. In an emergency call your local emergency number (India: 112).</footer>
+<script>
+const DB=[
+{id:"paracetamol",ver:1,n:"Paracetamol (Acetaminophen)",b:["Dolo 650","Dolopar","Calpol","Panadol","Tylenol","Hedex","Disprol"],c:"Pain & Fever",o:"India & International",f:"Tablets, capsules, syrup, powder, suppositories (NHS)",comp:"Paracetamol. Adult tablets and capsules are usually 500 mg (NHS); Dolo 650 contains paracetamol 650 mg.",u:"Aches and pains such as headache, toothache, sore throat and joint pain, and to bring down a high temperature (fever) in colds and flu.",d:"Usual adult dose: 500 mg to 1 g (1–2 × 500 mg tablets), at least 4 hours apart, with no more than 8 × 500 mg tablets (4 g) in 24 hours. If you weigh under 50 kg, ask a doctor or pharmacist for a lower maximum. Non-prescription paracetamol should not be used for more than 3 days unless a doctor says so.",bn:"Relieves pain and lowers fever. At the right dose it very rarely causes side effects, and the NHS says it is safe in pregnancy and while breastfeeding at recommended doses.",s:"Very rare when taken correctly. Report suspected side effects to your national scheme (UK: Yellow Card).",p:"Check with a doctor or pharmacist first if you weigh under 50 kg, regularly drink more than 14 units of alcohol a week, take warfarin or epilepsy medicines, or have ever had an allergic reaction to paracetamol.",w:"Do not take with other products containing paracetamol (some cold and flu remedies). Taking too much can seriously harm the liver: get medical help straight away and take the packet with you.",i:"Swallow tablets or capsules with water and follow the packet. If you take it regularly and miss a dose, take it when you remember unless the next dose is due within 4 hours; then skip it. Never double up.",mf:[["Dolo 650","Micro Labs Ltd, Bangalore, India"]],gen:"Also sold under the generic name “Paracetamol IP” (for example 650 mg tablets) by various makers; the active ingredient is the same as in brands.",src:[["NHS: Paracetamol for adults","https://www.nhs.uk/medicines/paracetamol-for-adults/"],["NHS: How and when to take paracetamol for adults","https://www.nhs.uk/medicines/paracetamol-for-adults/how-and-when-to-take-paracetamol-for-adults"],["Apollo Pharmacy listing: Dolo 650 (manufacturer)","https://www.apollopharmacy.in/te/otc/dolo-650mg-tablet-15-s"]],chk:"16 Nov 2026"},
+{id:"ibuprofen",n:"Ibuprofen",b:["Brufen","Ibugesic","Advil","Nurofen","Motrin"],c:"Pain & Fever"},
+{id:"diclofenac",n:"Diclofenac",b:["Voveran","Voltaren","Diclomax","Cataflam"],c:"Pain & Fever"},
+{id:"amoxicillin",n:"Amoxicillin",b:["Mox","Novamox","Amoxil","Almox"],c:"Antibiotics"},
+{id:"azithromycin",n:"Azithromycin",b:["Azithral","Azee","Zithromax","Zmax"],c:"Antibiotics"},
+{id:"cetirizine",n:"Cetirizine",b:["Cetzine","Okacet","Zyrtec","Alerid"],c:"Allergy & Cold"},
+{id:"pantoprazole",n:"Pantoprazole",b:["Pan 40","Pantocid","Protonix","Pantop"],c:"Stomach & Digestion"},
+{id:"metformin",n:"Metformin",b:["Glycomet","Glucophage","Obimet","Riomet"],c:"Diabetes"},
+{id:"amlodipine",n:"Amlodipine",b:["Amlong","Amlokind","Norvasc","Stamlo"],c:"Heart & Blood Pressure"},
+{id:"atorvastatin",n:"Atorvastatin",b:["Atorva","Lipitor","Storvas","Tonact"],c:"Heart & Blood Pressure"},
+{id:"levothyroxine",n:"Levothyroxine",b:["Thyronorm","Eltroxin","Synthroid","Euthyrox"],c:"Thyroid & Hormones"},
+{id:"aspirin",n:"Aspirin (Acetylsalicylic acid)",b:["Ecosprin","Disprin","Bayer Aspirin","Loprin"],c:"Heart & Blood Pressure"},
+{id:"salbutamol",n:"Salbutamol (Albuterol)",b:["Asthalin","Ventolin","Salbair","ProAir"],c:"Respiratory"},
+{id:"losartan",n:"Losartan",b:["Losar","Repace","Cozaar","Covance"],c:"Heart & Blood Pressure"}
+];
+const CATS=[...new Set(DB.map(m=>m.c))];
+const FIELDS=[["Uses","u"],["Composition","comp"],["Dosage","d"],["Benefits","bn"],["Side effects","s"],["Precautions","p"],["Warnings","w"],["Instructions","i"]];
+let cmp=[],state={q:"",cat:null},chat=[];
+const $=s=>document.querySelector(s);
+const E=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const norm=s=>s.toLowerCase().replace(/[^a-z0-9 ]/g," ").replace(/\s+/g," ").trim();
+function lev(a,b){if(Math.abs(a.length-b.length)>1)return 9;const d=[];for(let i=0;i<=a.length;i++){d[i]=[i];}for(let j=0;j<=b.length;j++)d[0][j]=j;for(let i=1;i<=a.length;i++)for(let j=1;j<=b.length;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]==b[j-1]?0:1));return d[a.length][b.length]}
+DB.forEach(m=>{m.names=[norm(m.n),...m.b.map(norm)];m.hay=norm([m.comp||"",m.u||"",m.c].join(" "))});
+function search(q,cat){q=norm(q);let L=DB.filter(m=>!cat||m.c===cat);if(!q)return L;const T=q.split(" ");
+ return L.map(m=>{let s=0;for(const t of T){let h=0;for(const n of m.names){if(n===t||n.startsWith(t))h=Math.max(h,5);else if(n.includes(t))h=Math.max(h,3);else if(t.length>=4&&n.split(" ").some(w=>lev(w,t)<=1))h=Math.max(h,2)}
+  if(m.comp&&norm(m.comp).includes(t))h=Math.max(h,3);if(m.hay.includes(t))h=Math.max(h,1);if(!h){s=0;break}s+=h}return{m,s}}).filter(x=>x.s>0).sort((a,b)=>b.s-a.s).map(x=>x.m)}
+function go(v){location.hash=v}
+function card(m){return `<div class="card med" onclick="go('med-${m.id}')"><h3>${E(m.b[0])}</h3><div class="sub">${E(m.n)}</div><span class="tag">${E(m.c)}</span><span class="tag">${m.ver?"✔ Source-checked":"Review pending"}</span><div class="sub" style="margin-top:8px">${m.ver?E(m.u.slice(0,80))+"…":"Details are shown only after checking against official sources."}</div><div style="margin-top:10px"><button class="ghost" onclick="event.stopPropagation();tog('${m.id}')">${cmp.includes(m.id)?"✓ Added":"+ Compare"}</button></div></div>`}
+function tog(id){cmp=cmp.includes(id)?cmp.filter(x=>x!==id):[...cmp,id].slice(-3);route()}
+function home(){
+ $("#app").innerHTML=`<div class="hero"><h1>Reliable medicine information, for everyone</h1><p>Search by brand, generic name or ingredient. Details appear only once checked against WHO, FDA, NHS, MedlinePlus and CDSCO.</p><div class="sbox"><input id="q" placeholder="Try “Crocin”, “paracetamol” or “metformin”" value="${E(state.q)}" autocomplete="off"></div></div>
+ <div class="chips" id="chips"></div><div id="res" class="grid"></div>`;
+ $("#chips").innerHTML=`<span class="chip ${!state.cat?"on":""}" data-c="">All</span>`+CATS.map(c=>`<span class="chip ${state.cat===c?"on":""}" data-c="${E(c)}">${E(c)}</span>`).join("");
+ $("#chips").onclick=e=>{if(e.target.dataset.c!==undefined){state.cat=e.target.dataset.c||null;home()}};
+ const run=()=>{const r=search(state.q,state.cat);$("#res").innerHTML=r.length?r.map(card).join(""):`<div class="card" style="grid-column:1/-1">No medicine found. Try another spelling or ask the <a href="#assistant">AI Assistant</a>.</div>`};
+ $("#q").oninput=e=>{state.q=e.target.value;run()};run()}
+function cats(){$("#app").innerHTML=`<h2>Medicine categories</h2><div class="grid">`+CATS.map(c=>`<div class="card med" onclick="state.cat='${c.replace(/'/g,"\\'")}';state.q='';go('home')"><h3>${E(c)}</h3><div class="sub">${DB.filter(m=>m.c===c).map(m=>m.n.split(" ")[0]).join(", ")}</div></div>`).join("")+`</div>`}
+const PORTALS=[["NHS medicines A–Z","https://www.nhs.uk/medicines/"],["MedlinePlus drug information","https://medlineplus.gov/druginformation.html"],["US FDA DailyMed labels","https://dailymed.nlm.nih.gov/dailymed/"],["India CDSCO","https://cdsco.gov.in/"],["WHO Essential Medicines","https://www.who.int/groups/expert-committee-on-selection-and-use-of-essential-medicines"]];
+const links=a=>a.map(([t,u])=>`<li><a href="${u}" target="_blank" rel="noopener noreferrer">${E(t)}</a></li>`).join("");
+function detail(id){const m=DB.find(x=>x.id===id);if(!m)return go("home");
+ const head=`<span class="back" onclick="history.back()">← Back</span><div class="card"><h1 style="margin:0">${E(m.n)}</h1><div class="sub">${m.ver?E(m.o)+" · "+E(m.f):"Information pending verification"}</div><div style="margin:6px 0"><span class="tag">${E(m.c)}</span><span class="tag">${m.ver?"✔ Checked against official sources on "+m.chk:"Review pending"}</span></div><div class="sub"><b>Brand names${m.ver?"":" (unchecked list, confirm on the pack)"}:</b> ${m.b.map(E).join(", ")}</div><div class="row"><button onclick="tog('${m.id}')">${cmp.includes(m.id)?"✓ In comparison":"+ Compare"}</button><button class="ghost" onclick="ask('Tell me about ${E(m.n)}')">Ask AI about this</button></div>`;
+ if(!m.ver){$("#app").innerHTML=head+`<div class="warn"><b>Details not shown yet.</b> Uses, composition, dosage, side effects and warnings for this medicine have not been checked against WHO, FDA, NHS, MedlinePlus or CDSCO, so MediLens does not display them. Please read the official pages below or ask a pharmacist.</div><div class="sec"><h3>Official sources</h3><ul>${links(PORTALS)}</ul></div></div>`;return}
+ $("#app").innerHTML=head+FIELDS.map(([l,k])=>`<div class="sec"><h3>${l}</h3>${E(m[k])}</div>`).join("")+`<div class="sec"><h3>Manufacturers (verified brands)</h3>${m.mf.map(x=>E(x[0]+": "+x[1])).join("<br>")}<div class="sub">Other brands exist; manufacturer details are listed only once confirmed.</div></div><div class="sec"><h3>Generic version</h3>${E(m.gen)}</div><div class="warn red"><b>Important:</b> ${E(m.w)}</div><div class="sec"><h3>Sources</h3><ul>${links(m.src)}</ul></div><div class="warn">General adult guidance only. Your doctor’s prescription always takes priority.</div></div>`}
+function sources(){$("#app").innerHTML=`<h2>Our sources and verification policy</h2><div class="card"><p>MediLens shows clinical details (uses, dosage, side effects, warnings) and manufacturers only after they are checked against official sources: <b>WHO, US FDA, NHS, MedlinePlus and India’s CDSCO</b>. Entries still waiting for that check show only the name and category, with links to the official pages. Every checked entry lists its sources and the date.</p><ul>${links(PORTALS)}</ul><p class="sub">Manufacturer and brand data change through mergers and licensing, so always confirm on the pack. Currently ${DB.filter(m=>m.ver).length} of ${DB.length} entries are checked; more are added as they are verified.</p></div>`}
+function compare(){const L=cmp.map(id=>DB.find(m=>m.id===id));
+ if(L.length<2){$("#app").innerHTML=`<h2>Compare medicines</h2><div class="card">Pick 2–3 medicines to compare side by side.<div class="row"><select id="cs"><option value="">Choose a medicine…</option>${DB.filter(m=>!cmp.includes(m.id)).map(m=>`<option value="${m.id}">${E(m.n)}</option>`).join("")}</select></div>${L.length?`<p>Selected: ${E(L[0].n)}</p>`:""}</div>`;$("#cs").onchange=e=>e.target.value&&tog(e.target.value);return}
+ $("#app").innerHTML=`<h2>Compare medicines</h2><div class="wrap"><table><tr><th></th>${L.map(m=>`<th>${E(m.n)}</th>`).join("")}</tr><tr><th>Brands</th>${L.map(m=>`<td>${m.b.map(E).join(", ")}</td>`).join("")}</tr><tr><th>Category</th>${L.map(m=>`<td>${E(m.c)}</td>`).join("")}</tr>${FIELDS.map(([l,k])=>`<tr><th>${l}</th>${L.map(m=>`<td>${m[k]?E(m[k]):"<i class=\"sub\">Pending verification</i>"}</td>`).join("")}</tr>`).join("")}</table></div><div class="row"><button class="ghost" onclick="cmp=[];route()">Clear</button>${L.length<3?`<select id="cs"><option value="">Add another…</option>${DB.filter(m=>!cmp.includes(m.id)).map(m=>`<option value="${m.id}">${E(m.n)}</option>`).join("")}</select>`:""}</div><div class="warn">Different medicines are not interchangeable. Ask your doctor before switching.</div>`;
+ const s=$("#cs");if(s)s.onchange=e=>e.target.value&&tog(e.target.value)}
+const SYS="You are MediLens, a careful medicine-information assistant for Indian and international medicines. Give clear, accurate, plain-language answers (uses, dosage ranges, side effects, interactions, precautions, India brand names where relevant). Never diagnose or prescribe; for personal dosing, pregnancy, children, serious symptoms or interactions, advise consulting a doctor or pharmacist. For emergencies advise calling local emergency services. If unsure, say so. Base answers only on well-established information from WHO, FDA, NHS, MedlinePlus and CDSCO. Never invent doses, brand names, manufacturers or facts; if you are not sure, say you are not sure and point to those sources. Name the source type you rely on. Keep answers under 200 words.\nMedicines in our database: "+DB.map(m=>m.n).join(", ")+".";
+async function getSample(){try{return await claude.use("sample")}catch(e){return null}}
+function renderChat(){const c=$("#chat");if(!c)return;c.innerHTML=chat.length?"":`<div class="sub">Ask things like “Can I take ibuprofen with paracetamol?” or “What is the difference between Crocin and Dolo?”</div>`;chat.forEach(m=>{const d=document.createElement("div");d.className="m "+(m.r=="user"?"u":"a");d.textContent=m.t;c.appendChild(d)});c.scrollTop=c.scrollHeight}
+function assistant(){$("#app").innerHTML=`<h2>AI medicine assistant</h2><div class="card"><div class="chat" id="chat"></div><div class="row"><input id="ci" placeholder="Ask about any medicine…"><button id="cb">Send</button></div></div><div class="warn">AI answers are not part of the verified database and can contain mistakes. Always confirm with a doctor or pharmacist.</div>`;renderChat();
+ const send=async()=>{const t=$("#ci").value.trim();if(!t)return;$("#ci").value="";chat.push({r:"user",t});chat.push({r:"a",t:"Thinking…"});renderChat();$("#cb").disabled=true;
+  const s=await getSample();if(!s){chat[chat.length-1].t="The AI assistant is only available when this page is opened in Claude. Use the search to read medicine pages meanwhile.";}else{try{const hist=chat.slice(0,-1).slice(-8).map(m=>({role:m.r=="user"?"user":"assistant",content:m.t}));
+   const r=await s([{role:"user",content:SYS+"\n\nConversation follows."},{role:"assistant",content:"Understood."},...hist],{cache:false,onText:({text})=>{chat[chat.length-1].t=text;renderChat()}});chat[chat.length-1].t=r.text}catch(e){chat[chat.length-1].t="Sorry, I couldn’t answer right now ("+(e.code||"error")+"). Please try again."}}
+  $("#cb")&&($("#cb").disabled=false);renderChat()};
+ $("#cb").onclick=send;$("#ci").onkeydown=e=>e.key=="Enter"&&send()}
+function ask(t){chat.push({r:"user",t});go("assistant");setTimeout(()=>{$("#ci").value="";chat.pop();$("#ci").value=t;$("#cb").click()},50)}
+function scan(){$("#app").innerHTML=`<h2>Identify a medicine from a photo</h2><div class="card"><p class="sub">Upload a clear photo of a strip, bottle or box. The AI reads the printed name and matches it to our database.</p><input type="file" id="f" accept="image/*"><div id="pv" style="margin-top:10px"></div><div class="row"><button id="sb" disabled>Identify medicine</button></div><div id="out" class="sec"></div></div><div class="warn">Never take a medicine you cannot positively identify. Verify with a pharmacist.</div>`;
+ let file=null;$("#f").onchange=e=>{file=e.target.files[0];$("#sb").disabled=!file;$("#pv").innerHTML="";if(file){const i=new Image();i.src=URL.createObjectURL(file);i.style.cssText="max-width:100%;max-height:260px;border-radius:10px";$("#pv").appendChild(i)}};
+ $("#sb").onclick=async()=>{const o=$("#out");o.textContent="Reading the image…";const s=await getSample();if(!s){o.textContent="Photo identification is only available when this page is opened in Claude.";return}
+  try{const lim=await s.limits();if(!lim.images){o.textContent="Image analysis isn’t available for your account.";return}
+   const r=await s("Look at this photo of medicine packaging. Report: brand name, generic ingredient(s), strength, manufacturer, and what it is generally used for, only from what you can read or confidently recognise. If it isn’t legible, say so. End with a confidence level (High/Medium/Low) and one line reminding the user to verify with a pharmacist.",{images:[file],cache:false});
+   o.textContent=r.text;const t=norm(r.text),hits=DB.filter(m=>m.names.some(n=>n.length>3&&t.includes(n.split(" ")[0])));
+   if(hits.length){const d=document.createElement("div");d.className="row";d.style.flexWrap="wrap";hits.forEach(m=>{const b=document.createElement("button");b.className="ghost";b.textContent="Open: "+m.n;b.onclick=()=>go("med-"+m.id);d.appendChild(b)});o.appendChild(d)}
+  }catch(e){o.textContent="Couldn’t analyse the image ("+(e.code||"error")+"). Try a clearer photo."}}}
+function route(){const h=location.hash.slice(1)||"home";document.querySelectorAll("nav a").forEach(a=>a.classList.toggle("on",a.dataset.v===(h.startsWith("med-")?"home":h)));
+ if(h.startsWith("med-"))detail(h.slice(4));else({home,categories:cats,compare,assistant,scan,sources}[h]||home)();window.scrollTo(0,0)}
+addEventListener("hashchange",route);route();
+</script></body></html>
